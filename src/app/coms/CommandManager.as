@@ -8,6 +8,9 @@ package app.coms {
         private var _skills:Vector.<Skill> = new Vector.<Skill>();
         private var _items:Vector.<Item> = new Vector.<Item>();
 
+        private var nextCommand:ICommand;
+        private var target:Character;
+
         public function CommandManager(owner:Character) {
 
             this.owner = owner;

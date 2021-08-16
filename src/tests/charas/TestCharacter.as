@@ -8,7 +8,7 @@ package tests.charas {
         }
 
         private function test1():void {
-            var c:Character = new Character();
+            var c:Character = new Character("testCharacter", true);
         }
     }
 }

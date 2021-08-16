@@ -6,8 +6,12 @@ package app.charas {
 
         private var _ability:Ability = new Ability();
         private var _commandManager:CommandManager = new CommandManager(this);
+        private var _isFriend:Boolean;
+        private var _name:String;
 
-        public function Character() {
+        public function Character(characterName:String, characterIsFriend:Boolean) {
+            _name = characterName;
+            _isFriend = characterIsFriend;
         }
 
         public function get ability():Ability {
@@ -16,6 +20,10 @@ package app.charas {
 
         public function get commandManager():CommandManager {
             return _commandManager;
+        }
+
+        public function get isFriend():Object {
+            return _isFriend;
         }
     }
 }
