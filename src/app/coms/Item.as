@@ -5,6 +5,7 @@ package app.coms {
         private var name:String = "";
         private var _targetType:String = TargetType.ENEMY;
         private var _strength:int;
+        private var _effectType:String = EffectType.DAMAGE;
 
         public function Item() {
 
@@ -32,6 +33,14 @@ package app.coms {
 
         public function set strength(value:int):void {
             _strength = value;
+        }
+
+        public function set effectType(value:String):void {
+            _effectType = value;
+        }
+
+        public function get effectType():String {
+            return _effectType;
         }
     }
 }

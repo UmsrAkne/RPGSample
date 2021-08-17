@@ -19,7 +19,18 @@ package app.coms {
         }
 
         public function recieveAction(action:IAction):void {
-            owner.ability.hp.currentValue -= action.strength;
+            switch (action.effectType) {
+                case EffectType.DAMAGE:
+                    owner.ability.hp.currentValue -= action.strength;
+                    break;
+
+                case EffectType.RECOVERY:
+                    owner.ability.hp.currentValue += action.strength;
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }

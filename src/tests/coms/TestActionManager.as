@@ -28,6 +28,9 @@ package tests.coms {
             allyCharacter.actionManager.act();
 
             Assert.isTrue(enemyCharacter.ability.hp.currentValue < 10);
+
+            // 行動実行後はコマンド未選択の状態になる。
+            Assert.isFalse(allyCharacter.commandManager.commandSelected);
         }
     }
 }
