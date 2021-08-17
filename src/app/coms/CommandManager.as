@@ -11,6 +11,7 @@ package app.coms {
         private var _party:Party;
 
         private var _currentCommands:Vector.<ICommand> = new Vector.<ICommand>();
+        private var previousCommands:Vector.<ICommand> = new Vector.<ICommand>();
         private var firstCommandNames:Vector.<String> = new Vector.<String>();
 
         private var nextCommand:ICommand;
@@ -61,6 +62,9 @@ package app.coms {
                 // 確実に skill or item が入っているのでキャスト可能
                 var action:IAction = IAction(nextCommand);
 
+                // コマンドのキャンセルができるように、直近のベクターをコピーしておく
+                previousCommands = _currentCommands.concat();
+
                 _currentCommands = new Vector.<ICommand>();
                 var targets:Vector.<Character> = _party.getMembers(action.targetType, owner.isFriend);
                 for each (var c:Character in targets) {
@@ -75,6 +79,8 @@ package app.coms {
         public function cancel():void {
             if (nextCommand) {
                 nextCommand = null;
+                _currentCommands = previousCommands.concat();
+                previousCommands = new Vector.<ICommand>();
                 return;
             } else {
                 _currentCommands = new Vector.<ICommand>();
@@ -85,6 +91,7 @@ package app.coms {
             nextCommand = null;
             target = null;
             _currentCommands = new Vector.<ICommand>();
+            previousCommands = new Vector.<ICommand>();
         }
 
         public function get commandNames():Vector.<String> {

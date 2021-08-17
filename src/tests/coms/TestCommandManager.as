@@ -10,6 +10,7 @@ package tests.coms {
             attackCommandTest();
             skillCommandTest();
             enemyAttackCommandTest();
+            commandCancelTest();
         }
 
         private function attackCommandTest():void {
@@ -98,6 +99,70 @@ package tests.coms {
             Assert.areEqual(commandManager.commandNames[1], "allyChara2");
 
             // ターゲットとして allyChara1 を選択
+            commandManager.select(0);
+
+            Assert.isTrue(commandManager.commandSelected);
+        }
+
+        private function commandCancelTest():void {
+            var owner:Character = new Character("testCharacter", true);
+            var enemy:Character = new Character("enemyCharacter", false);
+            var commandManager:CommandManager = new CommandManager(owner);
+            var party:Party = new Party();
+            party.members.push(owner, enemy);
+            commandManager.party = party;
+
+            Assert.areEqual(commandManager.commandNames[1], "スキル");
+            Assert.isFalse(commandManager.commandSelected);
+
+            // スキルコマンド選択
+            commandManager.select(1);
+
+            Assert.areEqual(commandManager.commandNames.length, 1);
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+
+            // コマンドをキャンセルする。最初のコマンドに戻る。
+            commandManager.cancel();
+
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+            Assert.areEqual(commandManager.commandNames[1], "スキル");
+            Assert.areEqual(commandManager.commandNames[2], "アイテム");
+
+            // 再度スキルコマンドを選択
+            commandManager.select(1);
+            Assert.areEqual(commandManager.commandNames.length, 1);
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+
+            // 攻撃コマンド選択でターゲット選択に移行
+            commandManager.select(0);
+            Assert.areEqual(commandManager.commandNames.length, 1);
+            Assert.areEqual(commandManager.commandNames[0], "enemyCharacter");
+
+            // コマンドを再キャンセル。スキル一覧の画面に戻る。
+            commandManager.cancel();
+            Assert.areEqual(commandManager.commandNames.length, 1);
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+
+            // 更にキャンセルすると、デフォルトコマンドの状態まで戻る。
+            commandManager.cancel();
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+            Assert.areEqual(commandManager.commandNames[1], "スキル");
+            Assert.areEqual(commandManager.commandNames[2], "アイテム");
+
+            // これ以降はキャンセルしても状態に変化はない。
+            commandManager.cancel();
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+            Assert.areEqual(commandManager.commandNames[1], "スキル");
+            Assert.areEqual(commandManager.commandNames[2], "アイテム");
+
+            commandManager.select(1);
+            Assert.areEqual(commandManager.commandNames.length, 1);
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+
+            commandManager.select(0);
+            Assert.areEqual(commandManager.commandNames.length, 1);
+            Assert.areEqual(commandManager.commandNames[0], "enemyCharacter");
+
             commandManager.select(0);
 
             Assert.isTrue(commandManager.commandSelected);
