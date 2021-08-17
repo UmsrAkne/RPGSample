@@ -1,8 +1,9 @@
 package app.coms {
 
-    public class Item implements ICommand {
+    public class Item implements ICommand, IAction {
 
         private var name:String = "";
+        private var _targetType:String = TargetType.ENEMY;
 
         public function Item() {
 
@@ -14,6 +15,14 @@ package app.coms {
 
         public function set displayName(value:String):void {
             name = value;
+        }
+
+        public function set targetType(value:String):void {
+            _targetType = value;
+        }
+
+        public function get targetType():String {
+            return _targetType;
         }
     }
 }

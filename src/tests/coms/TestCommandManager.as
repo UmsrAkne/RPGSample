@@ -9,6 +9,7 @@ package tests.coms {
         public function TestCommandManager() {
             attackCommandTest();
             skillCommandTest();
+            enemyAttackCommandTest();
         }
 
         private function attackCommandTest():void {
@@ -67,6 +68,36 @@ package tests.coms {
             Assert.areEqual(commandManager.commandNames[0], "enemyCharacter");
 
             // ターゲットを enemyCharacter に選択
+            commandManager.select(0);
+
+            Assert.isTrue(commandManager.commandSelected);
+        }
+
+        private function enemyAttackCommandTest():void {
+            var owner:Character = new Character("testCharacter", false);
+            var ally:Character = new Character("allyChara1", true);
+            var ally2:Character = new Character("allyChara2", true);
+
+            var commandManager:CommandManager = new CommandManager(owner);
+            var party:Party = new Party();
+            party.members.push(owner, ally, ally2);
+            commandManager.party = party;
+
+            Assert.areEqual(commandManager.commandNames[0], "攻撃");
+            Assert.areEqual(commandManager.commandNames[1], "スキル");
+            Assert.areEqual(commandManager.commandNames[2], "アイテム");
+
+            Assert.isFalse(commandManager.commandSelected);
+
+            // 攻撃コマンド選択
+            commandManager.select(0);
+
+            // ターゲットの選択肢が２つ
+            Assert.areEqual(commandManager.commandNames.length, 2);
+            Assert.areEqual(commandManager.commandNames[0], "allyChara1");
+            Assert.areEqual(commandManager.commandNames[1], "allyChara2");
+
+            // ターゲットとして allyChara1 を選択
             commandManager.select(0);
 
             Assert.isTrue(commandManager.commandSelected);

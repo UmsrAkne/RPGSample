@@ -37,7 +37,7 @@ package app.coms {
                 switch (firstCommandNames[index]) {
                     case CommandName.ATTACK:
                         nextCommand = _skills[0];
-                        for each (var character:Character in _party.getOnesideMembers(false)) {
+                        for each (var character:Character in _party.getMembers(_skills[0].targetType, owner.isFriend)) {
                             _currentCommands.push(ICommand(character));
                         }
                         break;
@@ -58,8 +58,11 @@ package app.coms {
             } else if (!nextCommand) {
                 nextCommand = _currentCommands[index];
 
+                // 確実に skill or item が入っているのでキャスト可能
+                var action:IAction = IAction(nextCommand);
+
                 _currentCommands = new Vector.<ICommand>();
-                var targets:Vector.<Character> = _party.getOnesideMembers(false);
+                var targets:Vector.<Character> = _party.getMembers(action.targetType, owner.isFriend);
                 for each (var c:Character in targets) {
                     _currentCommands.push(ICommand(c));
                 }
@@ -103,10 +106,6 @@ package app.coms {
 
         public function set party(value:Party):void {
             _party = value;
-        }
-
-        private function setTargets():void {
-
         }
     }
 }
