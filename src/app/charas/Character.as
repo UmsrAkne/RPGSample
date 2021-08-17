@@ -1,8 +1,9 @@
 package app.charas {
 
     import app.coms.CommandManager;
+    import app.coms.ICommand;
 
-    public class Character {
+    public class Character implements ICommand {
 
         private var _ability:Ability = new Ability();
         private var _commandManager:CommandManager = new CommandManager(this);
@@ -24,6 +25,10 @@ package app.charas {
 
         public function get isFriend():Object {
             return _isFriend;
+        }
+
+        public function get displayName():String {
+            return _name;
         }
     }
 }

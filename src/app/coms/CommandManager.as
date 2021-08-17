@@ -1,12 +1,14 @@
 package app.coms {
 
     import app.charas.Character;
+    import app.charas.Party;
 
     public class CommandManager {
 
         private var owner:Character;
         private var _skills:Vector.<Skill> = new Vector.<Skill>();
         private var _items:Vector.<Item> = new Vector.<Item>();
+        private var _party:Party;
 
         private var _currentCommands:Vector.<ICommand> = new Vector.<ICommand>();
         private var firstCommandNames:Vector.<String> = new Vector.<String>();
@@ -23,9 +25,9 @@ package app.coms {
             attackSkill.displayName = CommandName.ATTACK;
             _skills.push(attackSkill);
 
-            firstCommandNames.unshift(CommandName.ATTACK);
-            firstCommandNames.unshift(CommandName.SKILL);
-            firstCommandNames.unshift(CommandName.ITEM);
+            firstCommandNames.push(CommandName.ATTACK);
+            firstCommandNames.push(CommandName.SKILL);
+            firstCommandNames.push(CommandName.ITEM);
         }
 
         public function select(index:int):void {
@@ -34,7 +36,10 @@ package app.coms {
 
                 switch (firstCommandNames[index]) {
                     case CommandName.ATTACK:
-
+                        nextCommand = _skills[0];
+                        for each (var character:Character in _party.getOnesideMembers(false)) {
+                            _currentCommands.push(ICommand(character));
+                        }
                         break;
 
                     case CommandName.SKILL:
@@ -49,10 +54,18 @@ package app.coms {
                         }
                         break;
                 }
+
             } else if (!nextCommand) {
                 nextCommand = _currentCommands[index];
+
+                _currentCommands = new Vector.<ICommand>();
+                var targets:Vector.<Character> = _party.getOnesideMembers(false);
+                for each (var c:Character in targets) {
+                    _currentCommands.push(ICommand(c));
+                }
             } else {
                 // target の設定
+                target = _currentCommands[index] as Character;
             }
         }
 
@@ -86,6 +99,14 @@ package app.coms {
 
         public function get commandSelected():Boolean {
             return nextCommand && target;
+        }
+
+        public function set party(value:Party):void {
+            _party = value;
+        }
+
+        private function setTargets():void {
+
         }
     }
 }
