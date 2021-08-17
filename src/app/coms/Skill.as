@@ -18,11 +18,11 @@ package app.coms {
         }
 
         public function get strength():int {
-            return strength;
+            return _strength;
         }
 
         public function set strength(value:int):void {
-            strength = value;
+            _strength = value;
         }
 
         public function set targetType(value:String):void {

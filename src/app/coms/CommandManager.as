@@ -14,8 +14,8 @@ package app.coms {
         private var previousCommands:Vector.<ICommand> = new Vector.<ICommand>();
         private var firstCommandNames:Vector.<String> = new Vector.<String>();
 
-        private var nextCommand:ICommand;
-        private var target:Character;
+        private var _nextCommand:ICommand;
+        private var _target:Character;
 
         public function CommandManager(owner:Character) {
 
@@ -24,6 +24,7 @@ package app.coms {
             // 全てのキャラクターは、最低限通常攻撃のスキルは使用可能とする。
             var attackSkill:Skill = new Skill();
             attackSkill.displayName = CommandName.ATTACK;
+            attackSkill.strength = 1;
             _skills.push(attackSkill);
 
             firstCommandNames.push(CommandName.ATTACK);
@@ -37,7 +38,7 @@ package app.coms {
 
                 switch (firstCommandNames[index]) {
                     case CommandName.ATTACK:
-                        nextCommand = _skills[0];
+                        _nextCommand = _skills[0];
                         for each (var character:Character in _party.getMembers(_skills[0].targetType, owner.isFriend)) {
                             _currentCommands.push(ICommand(character));
                         }
@@ -56,11 +57,11 @@ package app.coms {
                         break;
                 }
 
-            } else if (!nextCommand) {
-                nextCommand = _currentCommands[index];
+            } else if (!_nextCommand) {
+                _nextCommand = _currentCommands[index];
 
                 // 確実に skill or item が入っているのでキャスト可能
-                var action:IAction = IAction(nextCommand);
+                var action:IAction = IAction(_nextCommand);
 
                 // コマンドのキャンセルができるように、直近のベクターをコピーしておく
                 previousCommands = _currentCommands.concat();
@@ -72,13 +73,13 @@ package app.coms {
                 }
             } else {
                 // target の設定
-                target = _currentCommands[index] as Character;
+                _target = _currentCommands[index] as Character;
             }
         }
 
         public function cancel():void {
-            if (nextCommand) {
-                nextCommand = null;
+            if (_nextCommand) {
+                _nextCommand = null;
                 _currentCommands = previousCommands.concat();
                 previousCommands = new Vector.<ICommand>();
                 return;
@@ -88,8 +89,8 @@ package app.coms {
         }
 
         public function reset():void {
-            nextCommand = null;
-            target = null;
+            _nextCommand = null;
+            _target = null;
             _currentCommands = new Vector.<ICommand>();
             previousCommands = new Vector.<ICommand>();
         }
@@ -108,7 +109,15 @@ package app.coms {
         }
 
         public function get commandSelected():Boolean {
-            return nextCommand && target;
+            return _nextCommand && _target;
+        }
+
+        public function get nextCommand():ICommand {
+            return _nextCommand;
+        }
+
+        public function get target():Character {
+            return _target;
         }
 
         public function set party(value:Party):void {

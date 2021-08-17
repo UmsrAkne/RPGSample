@@ -4,6 +4,7 @@ package app.coms {
 
         private var name:String = "";
         private var _targetType:String = TargetType.ENEMY;
+        private var _strength:int;
 
         public function Item() {
 
@@ -23,6 +24,14 @@ package app.coms {
 
         public function get targetType():String {
             return _targetType;
+        }
+
+        public function get strength():int {
+            return _strength;
+        }
+
+        public function set strength(value:int):void {
+            _strength = value;
         }
     }
 }
