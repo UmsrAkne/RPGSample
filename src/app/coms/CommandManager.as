@@ -78,6 +78,12 @@ package app.coms {
             }
         }
 
+        public function autoSetting():void {
+            _nextCommand = ICommand(_skills[0]);
+            var targetList:Vector.<Character> = _party.getMembers(IAction(_nextCommand).targetType, owner.isFriend);
+            _target = targetList[0];
+        }
+
         public function cancel():void {
             if (_nextCommand) {
                 _nextCommand = null;

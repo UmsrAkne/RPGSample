@@ -11,6 +11,7 @@ package tests.coms {
             skillCommandTest();
             enemyAttackCommandTest();
             commandCancelTest();
+            commandAutoSettingTest();
         }
 
         private function attackCommandTest():void {
@@ -166,6 +167,20 @@ package tests.coms {
             commandManager.select(0);
 
             Assert.isTrue(commandManager.commandSelected);
+        }
+
+        private function commandAutoSettingTest():void {
+            var owner:Character = new Character("testCharacter", true);
+            var enemy:Character = new Character("enemyCharacter", false);
+            var commandManager:CommandManager = new CommandManager(owner);
+            var party:Party = new Party();
+            party.members.push(owner, enemy);
+            commandManager.party = party;
+
+            commandManager.autoSetting();
+            Assert.isTrue(commandManager.commandSelected);
+            Assert.areEqual(commandManager.target.displayName, "enemyCharacter");
+            Assert.areEqual(commandManager.nextCommand.displayName, "攻撃");
         }
     }
 }
