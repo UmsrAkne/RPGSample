@@ -4,6 +4,7 @@ package tests.coms {
     import app.charas.Character;
     import app.charas.Party;
     import tests.Assert;
+    import app.utils.Random;
 
     public class TestCommandManager {
         public function TestCommandManager() {
@@ -11,7 +12,10 @@ package tests.coms {
             skillCommandTest();
             enemyAttackCommandTest();
             commandCancelTest();
+
+            Random.constant = 0.5;
             commandAutoSettingTest();
+            Random.constant = 1;
         }
 
         private function attackCommandTest():void {

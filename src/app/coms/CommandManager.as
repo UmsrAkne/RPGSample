@@ -2,6 +2,7 @@ package app.coms {
 
     import app.charas.Character;
     import app.charas.Party;
+    import app.utils.Random;
 
     public class CommandManager {
 
@@ -79,9 +80,9 @@ package app.coms {
         }
 
         public function autoSetting():void {
-            _nextCommand = ICommand(_skills[0]);
+            _nextCommand = ICommand(_skills[Random.getRandomRange(0, _skills.length - 1)]);
             var targetList:Vector.<Character> = _party.getMembers(IAction(_nextCommand).targetType, owner.isFriend);
-            _target = targetList[0];
+            _target = targetList[Random.getRandomRange(0, targetList.length - 1)];
         }
 
         public function cancel():void {
