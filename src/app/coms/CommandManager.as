@@ -25,6 +25,7 @@ package app.coms {
             var attackSkill:Skill = new Skill();
             attackSkill.displayName = CommandName.ATTACK;
             attackSkill.strength = 1;
+            attackSkill.message = owner.displayName + "の攻撃";
             _skills.push(attackSkill);
 
             firstCommandNames.push(CommandName.ATTACK);
