@@ -40,8 +40,13 @@ package app.charas {
          * @return BattleScene への移行、または BattleScene を継続可能かどうかを取得します。
          */
         public function canBattle():Boolean {
-            var enemys:Vector.<Character> = getMembers(TargetType.ENEMY, true);
-            var friends:Vector.<Character> = getMembers(TargetType.FRIEND, true);
+            var enemys:Vector.<Character> = getMembers(TargetType.ENEMY);
+            var friends:Vector.<Character> = getMembers(TargetType.FRIEND);
+
+            if (enemys.length == 0 || friends.length == 0) {
+                return false;
+            }
+
             var checkFunc:Function = function(c:Character, i:int, v:Vector.<Character>):Boolean {
                 return c.ability.hp.currentValue > 0;
             }
