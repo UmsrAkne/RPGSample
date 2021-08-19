@@ -8,6 +8,8 @@ package app.scenes {
     import flash.ui.Keyboard;
     import app.gameEvents.GameEvent;
     import app.gameEvents.GameTextEvent;
+    import app.coms.CommandManager;
+    import flash.events.Event;
 
     public class CommandPart implements IScenePart {
 
@@ -27,9 +29,9 @@ package app.scenes {
         }
 
         public function start():void {
-            friends = party.getMembers(TargetType.FRIEND);
-            enemys = party.getMembers(TargetType.ENEMY);
-            commandUnselectedFriends = party.getMembers(TargetType.FRIEND);
+            friends = _party.getMembers(TargetType.FRIEND);
+            enemys = _party.getMembers(TargetType.ENEMY);
+            commandUnselectedFriends = _party.getMembers(TargetType.FRIEND);
 
             dispatchTextEvent(commandUnselectedFriends[0].commandManager.commandNames, GameTextEvent.COMMAND_WINDOW);
 
@@ -62,6 +64,19 @@ package app.scenes {
         }
 
         public function decideCommand(index:int):void {
+            var currentCM:CommandManager = commandUnselectedFriends[0].commandManager
+            currentCM.select(index);
+
+            if (commandUnselectedFriends.length <= 1 && currentCM.commandSelected) {
+                _eventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
+            }
+
+            if (currentCM.commandSelected) {
+                commandUnselectedFriends.shift();
+                dispatchTextEvent(commandUnselectedFriends[0].commandManager.commandNames, GameTextEvent.COMMAND_WINDOW);
+            } else {
+                dispatchTextEvent(commandUnselectedFriends[0].commandManager.commandNames, GameTextEvent.SIDE_COMMAND_WINDOW);
+            }
         }
 
         public function set party(value:Party):void {
@@ -76,10 +91,6 @@ package app.scenes {
             }
 
             _eventDispatcher.dispatchEvent(textEvent);
-        }
-
-        private function get party():Party {
-            return _party;
         }
     }
 }

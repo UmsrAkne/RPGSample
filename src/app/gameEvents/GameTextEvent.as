@@ -20,7 +20,7 @@ package app.gameEvents {
          * @param lineText
          */
         public function addLine(lineText:String):void {
-            text += "\n" + lineText;
+            text += ((text != "") ? "\n" : "") + lineText;
         }
     }
 }

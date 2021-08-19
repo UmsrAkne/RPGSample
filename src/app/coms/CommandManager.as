@@ -3,6 +3,7 @@ package app.coms {
     import app.charas.Character;
     import app.charas.Party;
     import app.utils.Random;
+    import flash.sampler.getMemberNames;
 
     public class CommandManager {
 
