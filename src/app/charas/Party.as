@@ -21,7 +21,7 @@ package app.charas {
          *
          * @return 指定したキャラクターを詰めたベクターを返します。
          */
-        public function getMembers(targetType:String, rev:Boolean):Vector.<Character> {
+        public function getMembers(targetType:String, rev:Boolean = true):Vector.<Character> {
             if (targetType == TargetType.ALL) {
                 return members;
             }
