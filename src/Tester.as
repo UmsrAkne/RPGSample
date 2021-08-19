@@ -1,12 +1,13 @@
 package {
 
+    import flash.desktop.NativeApplication;
     import flash.display.Sprite;
     import tests.Assert;
     import tests.charas.TestAbilityValue;
-    import flash.desktop.NativeApplication;
     import tests.charas.TestCharacter;
-    import tests.coms.TestCommandManager;
+    import tests.charas.TestParty;
     import tests.coms.TestActionManager;
+    import tests.coms.TestCommandManager;
 
     public class Tester extends Sprite {
         public function Tester() {
@@ -15,6 +16,7 @@ package {
             new TestCharacter();
             new TestCommandManager();
             new TestActionManager();
+            new TestParty();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
 
