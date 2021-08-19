@@ -1,7 +1,7 @@
 package app.gameEvents {
     import flash.events.Event;
 
-    public class TextEvent extends Event {
+    public class GameTextEvent extends Event {
 
         public static var COMMAND_WINDOW:String = "commandWindow";
         public static var SIDE_COMMAND_WINDOW:String = "sideCommandWindow";
@@ -11,7 +11,7 @@ package app.gameEvents {
         public var text:String = "";
         public var displayLocation:String = MESSAGE_WINDOW;
 
-        public function TextEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) {
+        public function GameTextEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) {
             super(type, bubbles, cancelable);
         }
 

@@ -4,7 +4,7 @@ package app.coms {
     import flash.events.Event;
     import flash.events.EventDispatcher;
     import app.gameEvents.GameEvent;
-    import app.gameEvents.TextEvent;
+    import app.gameEvents.GameTextEvent;
 
     public class ActionManager {
 
@@ -19,7 +19,7 @@ package app.coms {
             var nextTarget:Character = owner.commandManager.target;
             nextTarget.actionManager.recieveAction(IAction(owner.commandManager.nextCommand));
 
-            var messageEvent:TextEvent = new TextEvent(GameEvent.MESSAGE);
+            var messageEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
             messageEvent.text = IAction(owner.commandManager.nextCommand).message;
             eventDispatcher.dispatchEvent(messageEvent);
 
@@ -29,7 +29,7 @@ package app.coms {
 
         public function recieveAction(action:IAction):void {
 
-            var messageEvent:TextEvent = new TextEvent(GameEvent.MESSAGE);
+            var messageEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
 
             switch (action.effectType) {
                 case EffectType.DAMAGE:

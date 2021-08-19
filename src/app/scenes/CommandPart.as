@@ -7,7 +7,7 @@ package app.scenes {
     import flash.events.KeyboardEvent;
     import flash.ui.Keyboard;
     import app.gameEvents.GameEvent;
-    import app.gameEvents.TextEvent;
+    import app.gameEvents.GameTextEvent;
 
     public class CommandPart implements IScenePart {
 
@@ -31,7 +31,7 @@ package app.scenes {
             enemys = party.getMembers(TargetType.ENEMY);
             commandUnselectedFriends = party.getMembers(TargetType.FRIEND);
 
-            dispatchTextEvent(commandUnselectedFriends[0].commandManager.commandNames, TextEvent.COMMAND_WINDOW);
+            dispatchTextEvent(commandUnselectedFriends[0].commandManager.commandNames, GameTextEvent.COMMAND_WINDOW);
 
             _eventDispatcher.addEventListener(KeyboardEvent.KEY_DOWN, keyboardEventHandler);
         }
@@ -69,7 +69,7 @@ package app.scenes {
         }
 
         private function dispatchTextEvent(stringVector:Vector.<String>, displayLocation:String):void {
-            var textEvent:TextEvent = new TextEvent(GameEvent.MESSAGE);
+            var textEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
             textEvent.displayLocation = displayLocation;
             for each (var t:String in stringVector) {
                 textEvent.addLine(t);
