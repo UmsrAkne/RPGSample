@@ -36,6 +36,19 @@ package app.charas {
             return _members;
         }
 
+        /**
+         * @return BattleScene への移行、または BattleScene を継続可能かどうかを取得します。
+         */
+        public function canBattle():Boolean {
+            var enemys:Vector.<Character> = getMembers(TargetType.ENEMY, true);
+            var friends:Vector.<Character> = getMembers(TargetType.FRIEND, true);
+            var checkFunc:Function = function(c:Character, i:int, v:Vector.<Character>):Boolean {
+                return c.ability.hp.currentValue > 0;
+            }
+
+            return friends.some(checkFunc) && enemys.some(checkFunc);
+        }
+
         private function getOnesideMembers(isFriend:Boolean):Vector.<Character> {
             return _members.filter(function(c:Character, i:int, v:Vector.<Character>):Boolean {
                 return c.isFriend == isFriend;

@@ -27,7 +27,7 @@ package app.scenes {
         private function startNextPart(e:Event):void {
             sceneParts[currentPartIndex].pause();
 
-            if (isGameOver()) {
+            if (!_party.canBattle()) {
                 // IScenePart の終了イベントの送出は、パートの全終了時だけでなく、
                 // 戦闘継続不可(敵か味方の全滅)時にも送出されるため、都度確認する。
 
@@ -58,17 +58,5 @@ package app.scenes {
             // 戦闘の終了処理
         }
 
-        /**
-         * @return パーティ全員の HP を確認。片方、または両サイドの全員が死んでいたら true を返却する。
-         */
-        private function isGameOver():Boolean {
-            var enemys:Vector.<Character> = _party.getMembers(TargetType.ENEMY, true);
-            var friends:Vector.<Character> = _party.getMembers(TargetType.FRIEND, true);
-            var checkFunc:Function = function(c:Character, i:int, v:Vector.<Character>):Boolean {
-                return c.ability.hp.currentValue <= 0;
-            }
-
-            return friends.every(checkFunc) || enemys.every(checkFunc);
-        }
     }
 }
