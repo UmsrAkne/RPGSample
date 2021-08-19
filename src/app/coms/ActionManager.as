@@ -20,7 +20,7 @@ package app.coms {
             nextTarget.actionManager.recieveAction(IAction(owner.commandManager.nextCommand));
 
             var messageEvent:TextEvent = new TextEvent(GameEvent.MESSAGE);
-            messageEvent.message = IAction(owner.commandManager.nextCommand).message;
+            messageEvent.text = IAction(owner.commandManager.nextCommand).message;
             eventDispatcher.dispatchEvent(messageEvent);
 
             // 行動を実行したのでリセットする。
@@ -34,12 +34,12 @@ package app.coms {
             switch (action.effectType) {
                 case EffectType.DAMAGE:
                     owner.ability.hp.currentValue -= action.strength;
-                    messageEvent.message = owner.displayName + "は" + action.strength + "ダメージを受けた";
+                    messageEvent.text = owner.displayName + "は" + action.strength + "ダメージを受けた";
                     break;
 
                 case EffectType.RECOVERY:
                     owner.ability.hp.currentValue += action.strength;
-                    messageEvent.message = owner.displayName + "はHPが" + action.strength + "回復した";
+                    messageEvent.text = owner.displayName + "はHPが" + action.strength + "回復した";
                     break;
 
                 default:
