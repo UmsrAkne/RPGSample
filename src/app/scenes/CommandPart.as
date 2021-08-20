@@ -69,6 +69,7 @@ package app.scenes {
 
             if (commandUnselectedFriends.length <= 1 && currentCM.commandSelected) {
                 _eventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
+                return;
             }
 
             if (currentCM.commandSelected) {

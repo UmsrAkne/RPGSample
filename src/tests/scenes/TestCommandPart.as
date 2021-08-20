@@ -38,7 +38,7 @@ package tests.scenes {
                 gameTextEvent = e;
             });
 
-            commandPart.eventDispatcher.addEventListener(Event.COMPLETE, function(e:GameTextEvent):void {
+            commandPart.eventDispatcher.addEventListener(Event.COMPLETE, function(e:Event):void {
                 commandSelectCompleted = true;
             });
 
