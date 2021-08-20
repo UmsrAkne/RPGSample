@@ -8,6 +8,7 @@ package {
     import tests.charas.TestParty;
     import tests.coms.TestActionManager;
     import tests.coms.TestCommandManager;
+    import tests.scenes.TestCommandPart;
 
     public class Tester extends Sprite {
         public function Tester() {
@@ -17,6 +18,7 @@ package {
             new TestCommandManager();
             new TestActionManager();
             new TestParty();
+            new TestCommandPart();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
 
