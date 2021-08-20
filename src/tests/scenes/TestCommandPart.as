@@ -5,6 +5,8 @@ package tests.scenes {
     import app.scenes.CommandPart;
     import app.gameEvents.GameEvent;
     import app.gameEvents.GameTextEvent;
+    import tests.Assert;
+    import flash.events.Event;
 
     public class TestCommandPart {
         public function TestCommandPart() {
@@ -28,14 +30,45 @@ package tests.scenes {
 
             var commandPart:CommandPart = new CommandPart();
             commandPart.party = party;
+
+            var gameTextEvent:GameTextEvent;
+            var commandSelectCompleted:Boolean;
+
             commandPart.eventDispatcher.addEventListener(GameEvent.MESSAGE, function(e:GameTextEvent):void {
-                trace(e.text);
-                trace("------------------------");
-            })
+                gameTextEvent = e;
+            });
+
+            commandPart.eventDispatcher.addEventListener(Event.COMPLETE, function(e:GameTextEvent):void {
+                commandSelectCompleted = true;
+            });
 
             commandPart.start();
+            Assert.areEqual(gameTextEvent.text, "攻撃\nスキル\nアイテム");
+
             commandPart.decideCommand(0);
+            Assert.areEqual(gameTextEvent.text, "e1\ne2");
+
+            // 一人目のコマンド選択が終了
             commandPart.decideCommand(0);
+            Assert.isTrue(f1.commandManager.commandSelected);
+
+            // コマンド選択シーンはまだ未完了
+            Assert.isFalse(commandSelectCompleted);
+
+            // 続いて二人目のコマンド選択に移行
+            Assert.areEqual(gameTextEvent.text, "攻撃\nスキル\nアイテム");
+
+            // スキルを選択
+            commandPart.decideCommand(1);
+            Assert.areEqual(gameTextEvent.text, "攻撃");
+
+            commandPart.decideCommand(0);
+            Assert.areEqual(gameTextEvent.text, "e1\ne2");
+
+            commandPart.decideCommand(1);
+
+            // コマンド選択完了を確認
+            Assert.isTrue(commandSelectCompleted);
         }
     }
 }
