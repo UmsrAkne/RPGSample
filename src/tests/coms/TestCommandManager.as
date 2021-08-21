@@ -207,6 +207,11 @@ package tests.coms {
             party.members.push(owner, enemy);
             commandManager.party = party;
 
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+            }
+
             commandManager.autoSetting();
             Assert.isTrue(commandManager.commandSelected);
             Assert.areEqual(commandManager.target.displayName, "enemyCharacter");

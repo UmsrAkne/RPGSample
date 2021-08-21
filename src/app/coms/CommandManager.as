@@ -82,7 +82,7 @@ package app.coms {
 
         public function autoSetting():void {
             _nextCommand = ICommand(_skills[Random.getRandomRange(0, _skills.length - 1)]);
-            var targetList:Vector.<Character> = _party.getMembers(IAction(_nextCommand).targetType, owner.isFriend);
+            var targetList:Vector.<Character> = extractTargetables(_party.getMembers(IAction(_nextCommand).targetType, owner.isFriend));
             _target = targetList[Random.getRandomRange(0, targetList.length - 1)];
         }
 
