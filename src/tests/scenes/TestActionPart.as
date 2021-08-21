@@ -30,7 +30,6 @@ package tests.scenes {
             var msg:String;
             actionPart.eventDispatcher.addEventListener(GameEvent.MESSAGE, function(e:GameTextEvent):void {
                 msg = e.text;
-                trace(msg);
             });
 
             actionPart.party = party;
