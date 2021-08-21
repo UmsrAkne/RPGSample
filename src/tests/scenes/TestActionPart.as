@@ -22,6 +22,12 @@ package tests.scenes {
             var party:Party = new Party();
             party.members.push(f1, f2, e1, e2);
 
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+                c.commandManager.party = party;
+            }
+
             var actionPart:ActionPart = new ActionPart();
             actionPart.eventDispatcher.addEventListener(Event.COMPLETE, function(e:Event):void {
                 actionPart.pause();
@@ -34,9 +40,9 @@ package tests.scenes {
 
             actionPart.party = party;
 
-            for each (var c:Character in party.getMembers(TargetType.ALL)) {
-                c.commandManager.party = party;
-                c.commandManager.autoSetting();
+            for each (var ch:Character in party.getMembers(TargetType.ALL)) {
+                ch.commandManager.party = party;
+                ch.commandManager.autoSetting();
             }
 
             actionPart.start();
