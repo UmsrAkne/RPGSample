@@ -16,12 +16,12 @@ package app.coms {
         }
 
         public function act():void {
-            var nextTarget:Character = owner.commandManager.target;
-            nextTarget.actionManager.recieveAction(IAction(owner.commandManager.nextCommand));
-
             var messageEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
             messageEvent.text = IAction(owner.commandManager.nextCommand).message;
             eventDispatcher.dispatchEvent(messageEvent);
+
+            var nextTarget:Character = owner.commandManager.target;
+            nextTarget.actionManager.recieveAction(IAction(owner.commandManager.nextCommand));
 
             // 行動を実行したのでリセットする。
             owner.commandManager.reset();
