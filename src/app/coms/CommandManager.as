@@ -42,7 +42,7 @@ package app.coms {
                 switch (firstCommandNames[index]) {
                     case CommandName.ATTACK:
                         _nextCommand = _skills[0];
-                        for each (var character:Character in _party.getMembers(_skills[0].targetType, owner.isFriend)) {
+                        for each (var character:Character in extractTargetables(_party.getMembers(_skills[0].targetType, owner.isFriend))) {
                             _currentCommands.push(ICommand(character));
                         }
                         break;

@@ -29,6 +29,12 @@ package tests.coms {
             party.members.push(owner, enemy, enemy2, enemy3);
             commandManager.party = party;
 
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+                c.commandManager.party = party;
+            }
+
             Assert.areEqual(commandManager.commandNames[0], "攻撃");
             Assert.areEqual(commandManager.commandNames[1], "スキル");
             Assert.areEqual(commandManager.commandNames[2], "アイテム");
@@ -93,8 +99,15 @@ package tests.coms {
 
             var commandManager:CommandManager = new CommandManager(owner);
             var party:Party = new Party();
+
             party.members.push(owner, ally, ally2);
             commandManager.party = party;
+
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+                c.commandManager.party = party;
+            }
 
             Assert.areEqual(commandManager.commandNames[0], "攻撃");
             Assert.areEqual(commandManager.commandNames[1], "スキル");
