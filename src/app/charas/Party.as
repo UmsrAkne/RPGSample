@@ -23,7 +23,7 @@ package app.charas {
          */
         public function getMembers(targetType:String, rev:Boolean = true):Vector.<Character> {
             if (targetType == TargetType.ALL) {
-                return members;
+                return members.concat();
             }
 
             var targetIsFriend:Boolean = (targetType == TargetType.FRIEND);
