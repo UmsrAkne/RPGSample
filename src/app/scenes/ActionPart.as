@@ -48,7 +48,7 @@ package app.scenes {
         private function enterFrameEventHandler(event:Event):void {
             frameCount++;
             if (frameCount % longWait == 0) {
-                if (waitingCharacters.length == 0) {
+                if (waitingCharacters.length == 0 || !_party.canBattle()) {
                     _eventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
                     return;
                 }
