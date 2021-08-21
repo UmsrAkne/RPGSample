@@ -5,6 +5,7 @@ package tests.coms {
     import app.charas.Party;
     import tests.Assert;
     import app.utils.Random;
+    import app.coms.TargetType;
 
     public class TestCommandManager {
         public function TestCommandManager() {
@@ -55,6 +56,12 @@ package tests.coms {
             var commandManager:CommandManager = new CommandManager(owner);
             var party:Party = new Party();
             party.members.push(owner, enemy);
+
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+            }
+
             commandManager.party = party;
 
             Assert.areEqual(commandManager.commandNames[1], "スキル");
@@ -115,6 +122,12 @@ package tests.coms {
             var commandManager:CommandManager = new CommandManager(owner);
             var party:Party = new Party();
             party.members.push(owner, enemy);
+
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+            }
+
             commandManager.party = party;
 
             Assert.areEqual(commandManager.commandNames[1], "スキル");

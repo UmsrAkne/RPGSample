@@ -70,7 +70,7 @@ package app.coms {
                 previousCommands = _currentCommands.concat();
 
                 _currentCommands = new Vector.<ICommand>();
-                var targets:Vector.<Character> = _party.getMembers(action.targetType, owner.isFriend);
+                var targets:Vector.<Character> = extractTargetables(_party.getMembers(action.targetType, owner.isFriend));
                 for each (var c:Character in targets) {
                     _currentCommands.push(ICommand(c));
                 }
