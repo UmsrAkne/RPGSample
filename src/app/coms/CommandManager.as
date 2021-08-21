@@ -104,6 +104,13 @@ package app.coms {
             previousCommands = new Vector.<ICommand>();
         }
 
+        /** * @return ターゲットとして選択可能なキャラクターのベクター の複製を取得します */
+        private function extractTargetables(source:Vector.<Character>):Vector.<Character> {
+            return source.filter(function(c:Character, index:int, v:Vector.<Character>):Boolean {
+                return c.ability.hp.currentValue > 0;
+            });
+        }
+
         public function get commandNames():Vector.<String> {
             if (_currentCommands.length == 0) {
                 return firstCommandNames;
