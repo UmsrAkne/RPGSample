@@ -22,5 +22,14 @@ package app.gameEvents {
         public function addLine(lineText:String):void {
             text += ((text != "") ? "\n" : "") + lineText;
         }
+
+        /**
+         *
+         * @param source ソースとなるゲームイベントから各プロパティをコピーします。
+         */
+        public function copyPropeties(source:GameTextEvent):void {
+            text = source.text;
+            displayLocation = source.displayLocation;
+        }
     }
 }
