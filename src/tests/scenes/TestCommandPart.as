@@ -7,6 +7,7 @@ package tests.scenes {
     import app.gameEvents.GameTextEvent;
     import tests.Assert;
     import flash.events.Event;
+    import app.coms.TargetType;
 
     public class TestCommandPart {
         public function TestCommandPart() {
@@ -23,10 +24,11 @@ package tests.scenes {
             var party:Party = new Party();
             party.members.push(f1, f2, e1, e2);
 
-            f1.commandManager.party = party;
-            f2.commandManager.party = party;
-            e1.commandManager.party = party;
-            e2.commandManager.party = party;
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+                c.commandManager.party = party;
+            }
 
             var commandPart:CommandPart = new CommandPart();
             commandPart.party = party;

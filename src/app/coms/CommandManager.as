@@ -42,7 +42,7 @@ package app.coms {
                 switch (firstCommandNames[index]) {
                     case CommandName.ATTACK:
                         _nextCommand = _skills[0];
-                        for each (var character:Character in _party.getMembers(_skills[0].targetType, owner.isFriend)) {
+                        for each (var character:Character in extractTargetables(_party.getMembers(_skills[0].targetType, owner.isFriend))) {
                             _currentCommands.push(ICommand(character));
                         }
                         break;
@@ -70,7 +70,7 @@ package app.coms {
                 previousCommands = _currentCommands.concat();
 
                 _currentCommands = new Vector.<ICommand>();
-                var targets:Vector.<Character> = _party.getMembers(action.targetType, owner.isFriend);
+                var targets:Vector.<Character> = extractTargetables(_party.getMembers(action.targetType, owner.isFriend));
                 for each (var c:Character in targets) {
                     _currentCommands.push(ICommand(c));
                 }
@@ -82,7 +82,7 @@ package app.coms {
 
         public function autoSetting():void {
             _nextCommand = ICommand(_skills[Random.getRandomRange(0, _skills.length - 1)]);
-            var targetList:Vector.<Character> = _party.getMembers(IAction(_nextCommand).targetType, owner.isFriend);
+            var targetList:Vector.<Character> = extractTargetables(_party.getMembers(IAction(_nextCommand).targetType, owner.isFriend));
             _target = targetList[Random.getRandomRange(0, targetList.length - 1)];
         }
 
@@ -102,6 +102,13 @@ package app.coms {
             _target = null;
             _currentCommands = new Vector.<ICommand>();
             previousCommands = new Vector.<ICommand>();
+        }
+
+        /** * @return ターゲットとして選択可能なキャラクターのベクター の複製を取得します */
+        private function extractTargetables(source:Vector.<Character>):Vector.<Character> {
+            return source.filter(function(c:Character, index:int, v:Vector.<Character>):Boolean {
+                return c.ability.hp.currentValue > 0;
+            });
         }
 
         public function get commandNames():Vector.<String> {
