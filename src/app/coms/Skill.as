@@ -51,5 +51,13 @@ package app.coms {
         public function get message():String {
             return _message;
         }
+
+        public function set cost(value:int):void {
+            _cost = value;
+        }
+
+        public function get cost():int {
+            return _cost;
+        }
     }
 }

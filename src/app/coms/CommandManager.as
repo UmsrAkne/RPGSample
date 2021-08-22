@@ -139,5 +139,9 @@ package app.coms {
         public function set party(value:Party):void {
             _party = value;
         }
+
+        public function get skills():Vector.<Skill> {
+            return _skills;
+        }
     }
 }
