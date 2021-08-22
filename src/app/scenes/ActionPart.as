@@ -14,6 +14,7 @@ package app.scenes {
         private var _party:Party;
         private var frameCount:int;
         private var waitingCharacters:Vector.<Character> = new Vector.<Character>();
+        private var messageBuffer:Vector.<GameTextEvent> = new Vector.<GameTextEvent>();
 
         public var longWait:int = 16;
         public var shortWait:int = 8;
@@ -46,27 +47,36 @@ package app.scenes {
         }
 
         private function enterFrameEventHandler(event:Event):void {
-            frameCount++;
-            if (frameCount % longWait == 0) {
+            if (messageBuffer.length == 0 && frameCount % longWait == 0) {
                 if (waitingCharacters.length == 0 || !_party.canBattle()) {
                     _eventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
+                    _eventDispatcher.removeEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
                     return;
                 }
 
                 waitingCharacters[0].actionManager.act();
                 waitingCharacters.shift();
             }
+
+            if (messageBuffer.length != 0 && frameCount % shortWait == 0) {
+                _eventDispatcher.dispatchEvent(messageBuffer.shift());
+                if (messageBuffer.length == 0) {
+                    frameCount = 1;
+                    return;
+                }
+            }
+
+            frameCount++;
         }
 
         private function receiveReaction(e:GameTextEvent):void {
             var newEv:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
             newEv.copyPropeties(e);
+            messageBuffer.push(newEv);
 
             // 詳細は不明だが、引数で回ってきた event を再度送出することができない
             // (target が関係？)
             // このため、新しいイベントを生成して、そこにプロパティをコピーし、それを送出する。
-
-            _eventDispatcher.dispatchEvent(newEv);
         }
 
         private function dispatchTextEvent(stringVector:Vector.<String>, displayLocation:String):void {
