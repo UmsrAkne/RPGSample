@@ -27,7 +27,10 @@ package app.scenes {
         }
 
         public function start():void {
-            waitingCharacters = _party.getMembers(TargetType.ALL);
+            waitingCharacters = _party.getMembers(TargetType.ALL).filter(function(c:Character, index:*, v:*):Boolean {
+                return c.ability.hp.currentValue > 0;
+            });
+
             for each (var c:Character in waitingCharacters) {
                 c.actionManager.eventDispatcher.addEventListener(GameEvent.MESSAGE, receiveReaction);
             }
@@ -54,7 +57,10 @@ package app.scenes {
                     return;
                 }
 
-                waitingCharacters[0].actionManager.act();
+                if (waitingCharacters[0].actionManager.canAct) {
+                    waitingCharacters[0].actionManager.act();
+                }
+
                 waitingCharacters.shift();
             }
 

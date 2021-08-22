@@ -52,5 +52,19 @@ package app.coms {
         public function get eventDispatcher():EventDispatcher {
             return _eventDispatcher;
         }
+
+        public function get canAct():Boolean {
+            if (owner.ability.hp.currentValue <= 0) {
+                return false;
+            }
+
+            var cm:CommandManager = owner.commandManager;
+            if (cm.nextCommand is Item) {
+                return true; // 次のコマンドがアイテムの場合、所持しているのは確定なので true
+            }
+
+            // 現状の仕様では、アイテムでなければスキルなので、コストを確認する。
+            return Skill(cm.nextCommand).cost <= owner.ability.sp.currentValue;
+        }
     }
 }
