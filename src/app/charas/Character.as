@@ -38,5 +38,13 @@ package app.charas {
         public function get displayName():String {
             return _name;
         }
+
+        /** キャラクターが持つ CommandManager, ActionManager に party をセットします。
+         * @param value
+         */
+        public function set party(value:Party):void {
+            _commandManager.party = value;
+            _actionManager.party = value;
+        }
     }
 }

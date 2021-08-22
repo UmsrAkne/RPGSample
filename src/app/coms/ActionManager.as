@@ -5,11 +5,13 @@ package app.coms {
     import flash.events.EventDispatcher;
     import app.gameEvents.GameEvent;
     import app.gameEvents.GameTextEvent;
+    import app.charas.Party;
 
     public class ActionManager {
 
         private var owner:Character;
         private var _eventDispatcher:EventDispatcher = new EventDispatcher();
+        private var _party:Party;
 
         public function ActionManager(owner:Character) {
             this.owner = owner;
@@ -65,6 +67,10 @@ package app.coms {
 
             // 現状の仕様では、アイテムでなければスキルなので、コストを確認する。
             return Skill(cm.nextCommand).cost <= owner.ability.sp.currentValue;
+        }
+
+        public function set party(value:Party):void {
+            _party = value;
         }
     }
 }
