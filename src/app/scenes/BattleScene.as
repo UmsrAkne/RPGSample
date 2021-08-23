@@ -7,6 +7,7 @@ package app.scenes {
     import app.coms.TargetType;
     import app.gameEvents.GameEvent;
     import app.gameEvents.GameTextEvent;
+    import flash.events.KeyboardEvent;
 
     public class BattleScene extends Sprite {
 
@@ -24,6 +25,7 @@ package app.scenes {
             }
 
             sceneParts[currentPartIndex].start();
+            addEventListener(KeyboardEvent.KEY_DOWN, keyboardEventHandler);
         }
 
         private function startNextPart(e:Event):void {
@@ -46,6 +48,10 @@ package app.scenes {
             sceneParts.push(part);
             part.eventDispatcher.addEventListener(Event.COMPLETE, startNextPart);
             part.eventDispatcher.addEventListener(GameEvent.MESSAGE, showText);
+        }
+
+        public function keyboardEventHandler(e:KeyboardEvent):void {
+            sceneParts[currentPartIndex].pressKey(e);
         }
 
         private function showText(e:GameTextEvent):void {

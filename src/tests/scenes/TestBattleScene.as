@@ -8,6 +8,8 @@ package tests.scenes {
     import app.scenes.CommandPart;
     import tests.Assert;
     import app.scenes.UI;
+    import flash.events.KeyboardEvent;
+    import flash.ui.Keyboard;
 
     public class TestBattleScene {
         public function TestBattleScene() {
@@ -45,6 +47,17 @@ package tests.scenes {
 
             battleScene.start();
             Assert.areEqual(ui.commandWindow.text, "攻撃\rスキル\rアイテム", "最初にコマンドパート。コマンドウィンドウにテキスト");
+
+            var enterKeySignal:KeyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_DOWN, false, false, 0, Keyboard.ENTER);
+            battleScene.keyboardEventHandler(enterKeySignal);
+
+            Assert.areEqual(ui.commandWindow.text, "enemy1\renemy2");
+            battleScene.keyboardEventHandler(enterKeySignal);
+
+            Assert.areEqual(ui.commandWindow.text, "攻撃\rスキル\rアイテム", "二人目のコマンド選択");
+            battleScene.keyboardEventHandler(enterKeySignal);
+
+            Assert.areEqual(ui.commandWindow.text, "enemy1\renemy2");
         }
     }
 }
