@@ -10,17 +10,20 @@ package tests.scenes {
     import app.scenes.UI;
     import flash.events.KeyboardEvent;
     import flash.ui.Keyboard;
+    import flash.events.Event;
+    import app.utils.Random;
 
     public class TestBattleScene {
         public function TestBattleScene() {
+            Random.constant = 0.5;
             test();
+            Random.constant = 1.0;
         }
 
         private function test():void {
             var battleScene:BattleScene = new BattleScene();
-            battleScene.party = party;
-
             var party:Party = new Party();
+            battleScene.party = party;
 
             var f1:Character = new Character("friend1", true);
             var f2:Character = new Character("friend2", true);
@@ -58,6 +61,23 @@ package tests.scenes {
             battleScene.keyboardEventHandler(enterKeySignal);
 
             Assert.areEqual(ui.commandWindow.text, "enemy1\renemy2");
+
+            var commandPartCompleted:Boolean;
+            commandPart.eventDispatcher.addEventListener(Event.COMPLETE, function(e:Event):void {
+                commandPartCompleted = true;
+            });
+
+            battleScene.keyboardEventHandler(enterKeySignal);
+            Assert.isTrue(commandPartCompleted);
+
+            var actionPartCompleted:Boolean;
+            actionPart.eventDispatcher.addEventListener(Event.COMPLETE, function(e:Event):void {
+                actionPartCompleted = true;
+            });
+
+            while (!actionPartCompleted) {
+                battleScene.enterFrameEventHandler(new Event(Event.ENTER_FRAME));
+            }
         }
     }
 }
