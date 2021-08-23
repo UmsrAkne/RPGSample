@@ -26,6 +26,7 @@ package app.scenes {
 
             sceneParts[currentPartIndex].start();
             addEventListener(KeyboardEvent.KEY_DOWN, keyboardEventHandler);
+            addEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
         }
 
         private function startNextPart(e:Event):void {
@@ -52,6 +53,10 @@ package app.scenes {
 
         public function keyboardEventHandler(e:KeyboardEvent):void {
             sceneParts[currentPartIndex].pressKey(e);
+        }
+
+        public function enterFrameEventHandler(e:Event):void {
+            sceneParts[currentPartIndex].enterFrameProcess();
         }
 
         private function showText(e:GameTextEvent):void {

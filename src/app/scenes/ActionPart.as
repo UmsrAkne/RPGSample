@@ -20,6 +20,8 @@ package app.scenes {
         public var longWait:int = 16;
         public var shortWait:int = 8;
 
+        private var pausing:Boolean = false;
+
         public function ActionPart() {
         }
 
@@ -28,6 +30,8 @@ package app.scenes {
         }
 
         public function start():void {
+            pausing = false;
+
             waitingCharacters = _party.getMembers(TargetType.ALL).filter(function(c:Character, index:*, v:*):Boolean {
                 return c.ability.hp.currentValue > 0;
             });
@@ -36,31 +40,23 @@ package app.scenes {
                 c.actionManager.eventDispatcher.addEventListener(GameEvent.MESSAGE, receiveReaction);
             }
 
-            _eventDispatcher.addEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
         }
 
         public function pause():void {
-            _eventDispatcher.removeEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
+            pausing = true;
         }
 
         public function pressKey(e:KeyboardEvent):void {
         }
 
         public function enterFrameProcess():void {
-        }
+            if (pausing) {
+                return;
+            }
 
-        public function moveForward():void {
-        }
-
-        public function set party(value:Party):void {
-            _party = value;
-        }
-
-        private function enterFrameEventHandler(event:Event):void {
             if (messageBuffer.length == 0 && frameCount % longWait == 0) {
                 if (waitingCharacters.length == 0 || !_party.canBattle()) {
                     _eventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
-                    _eventDispatcher.removeEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
                     return;
                 }
 
@@ -80,6 +76,14 @@ package app.scenes {
             }
 
             frameCount++;
+        }
+
+
+        public function moveForward():void {
+        }
+
+        public function set party(value:Party):void {
+            _party = value;
         }
 
         private function receiveReaction(e:GameTextEvent):void {

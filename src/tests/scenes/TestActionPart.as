@@ -53,7 +53,7 @@ package tests.scenes {
                 actionPart.start();
 
                 while (!partComplete) {
-                    actionPart.eventDispatcher.dispatchEvent(new Event(Event.ENTER_FRAME));
+                    actionPart.enterFrameProcess();
                 }
 
                 if (!party.canBattle()) {
