@@ -5,12 +5,15 @@ package app.scenes {
     import app.charas.Party;
     import app.charas.Character;
     import app.coms.TargetType;
+    import app.gameEvents.GameEvent;
+    import app.gameEvents.GameTextEvent;
 
     public class BattleScene extends Sprite {
 
         private var sceneParts:Vector.<IScenePart> = new Vector.<IScenePart>();
         private var currentPartIndex:int;
         private var _party:Party;
+        private var _ui:UI = new UI();
 
         public function BattleScene() {
         }
@@ -20,7 +23,6 @@ package app.scenes {
                 return;
             }
 
-            sceneParts[currentPartIndex].eventDispatcher.addEventListener(Event.COMPLETE, startNextPart);
             sceneParts[currentPartIndex].start();
         }
 
@@ -42,6 +44,28 @@ package app.scenes {
 
         public function addPart(part:IScenePart):void {
             sceneParts.push(part);
+            part.eventDispatcher.addEventListener(Event.COMPLETE, startNextPart);
+            part.eventDispatcher.addEventListener(GameEvent.MESSAGE, showText);
+        }
+
+        private function showText(e:GameTextEvent):void {
+            switch (e.displayLocation) {
+                case GameTextEvent.COMMAND_WINDOW:
+                    _ui.commandWindow.text = e.text;
+                    break;
+                case GameTextEvent.SIDE_COMMAND_WINDOW:
+                    _ui.sideCommandWindow.text = e.text;
+                    break;
+                case GameTextEvent.MESSAGE_WINDOW:
+                    _ui.messageWindow.text = _ui.messageWindow.text + "\n" + e.text;
+                    break;
+                case GameTextEvent.STATUS_WINDOW:
+                    _ui.statusWindow.text = e.text;
+                    break;
+                default:
+                    throw new Error("GameTextEvent.displayLocation が不正な値です");
+                    break;
+            }
         }
 
         /**
@@ -52,6 +76,10 @@ package app.scenes {
             if (!_party) {
                 _party = value;
             }
+        }
+
+        public function get ui():UI {
+            return _ui;
         }
 
         private function finish():void {
