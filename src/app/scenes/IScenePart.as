@@ -8,5 +8,6 @@ package app.scenes {
         function start():void;
         function pause():void;
         function pressKey(e:KeyboardEvent):void;
+        function enterFrameProcess():void;
     }
 }

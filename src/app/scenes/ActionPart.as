@@ -46,6 +46,9 @@ package app.scenes {
         public function pressKey(e:KeyboardEvent):void {
         }
 
+        public function enterFrameProcess():void {
+        }
+
         public function moveForward():void {
         }
 

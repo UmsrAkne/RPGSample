@@ -67,6 +67,9 @@ package app.scenes {
             }
         }
 
+        public function enterFrameProcess():void {
+        }
+
         public function decideCommand(index:int):void {
             var currentCM:CommandManager = commandUnselectedFriends[0].commandManager
             currentCM.select(index);
