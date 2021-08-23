@@ -21,6 +21,7 @@ package app.scenes {
             tfs.push(messageWindow, commandWindow, sideCommandWindow, statusWindow);
             for each (var tf:TextField in tfs) {
                 tf.defaultTextFormat = textFormat;
+                tf.multiline = true;
                 addChild(tf);
             }
         }
