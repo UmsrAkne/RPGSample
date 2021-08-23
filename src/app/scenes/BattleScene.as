@@ -13,7 +13,7 @@ package app.scenes {
         private var sceneParts:Vector.<IScenePart> = new Vector.<IScenePart>();
         private var currentPartIndex:int;
         private var _party:Party;
-        private var ui:UI = new UI();
+        private var _ui:UI = new UI();
 
         public function BattleScene() {
         }
@@ -51,16 +51,16 @@ package app.scenes {
         private function showText(e:GameTextEvent):void {
             switch (e.displayLocation) {
                 case GameTextEvent.COMMAND_WINDOW:
-                    ui.commandWindow.text = e.text;
+                    _ui.commandWindow.text = e.text;
                     break;
                 case GameTextEvent.SIDE_COMMAND_WINDOW:
-                    ui.sideCommandWindow.text = e.text;
+                    _ui.sideCommandWindow.text = e.text;
                     break;
                 case GameTextEvent.MESSAGE_WINDOW:
-                    ui.messageWindow.text = ui.messageWindow.text + "\n" + e.text;
+                    _ui.messageWindow.text = _ui.messageWindow.text + "\n" + e.text;
                     break;
                 case GameTextEvent.STATUS_WINDOW:
-                    ui.statusWindow.text = e.text;
+                    _ui.statusWindow.text = e.text;
                     break;
                 default:
                     throw new Error("GameTextEvent.displayLocation が不正な値です");
@@ -76,6 +76,10 @@ package app.scenes {
             if (!_party) {
                 _party = value;
             }
+        }
+
+        public function get ui():UI {
+            return _ui;
         }
 
         private function finish():void {
