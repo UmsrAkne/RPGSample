@@ -6,6 +6,8 @@ package tests.scenes {
     import app.coms.TargetType;
     import app.scenes.ActionPart;
     import app.scenes.CommandPart;
+    import tests.Assert;
+    import app.scenes.UI;
 
     public class TestBattleScene {
         public function TestBattleScene() {
@@ -39,6 +41,10 @@ package tests.scenes {
             battleScene.addPart(commandPart);
             battleScene.addPart(actionPart);
 
+            var ui:UI = battleScene.ui;
+
+            battleScene.start();
+            Assert.areEqual(ui.commandWindow.text, "攻撃\rスキル\rアイテム", "最初にコマンドパート。コマンドウィンドウにテキスト");
         }
     }
 }
