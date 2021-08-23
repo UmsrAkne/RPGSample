@@ -76,6 +76,11 @@ package app.scenes {
 
             if (commandUnselectedFriends.length <= 1 && currentCM.commandSelected) {
                 _eventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
+
+                _party.getMembers(TargetType.ENEMY).forEach(function(c:Character, index:int, v:*):void {
+                    c.commandManager.autoSetting();
+                });
+
                 return;
             }
 
