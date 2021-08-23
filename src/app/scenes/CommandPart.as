@@ -20,6 +20,7 @@ package app.scenes {
         private var enemys:Vector.<Character>;
         private var commandUnselectedFriends:Vector.<Character>;
         private var cursorIndex:int;
+        private var isKeyboardEnabled:Boolean;
 
         public function CommandPart() {
         }
@@ -34,15 +35,18 @@ package app.scenes {
             commandUnselectedFriends = _party.getMembers(TargetType.FRIEND);
 
             dispatchTextEvent(commandUnselectedFriends[0].commandManager.commandNames, GameTextEvent.COMMAND_WINDOW);
-
-            _eventDispatcher.addEventListener(KeyboardEvent.KEY_DOWN, keyboardEventHandler);
+            isKeyboardEnabled = true;
         }
 
         public function pause():void {
-            _eventDispatcher.removeEventListener(KeyboardEvent.KEY_DOWN, keyboardEventHandler);
+            isKeyboardEnabled = false;
         }
 
-        private function keyboardEventHandler(e:KeyboardEvent):void {
+        public function pressKey(e:KeyboardEvent):void {
+            if (!isKeyboardEnabled) {
+                return;
+            }
+
             switch (e.keyCode) {
                 case Keyboard.DOWN:
                     cursorIndex++;
@@ -63,12 +67,20 @@ package app.scenes {
             }
         }
 
+        public function enterFrameProcess():void {
+        }
+
         public function decideCommand(index:int):void {
             var currentCM:CommandManager = commandUnselectedFriends[0].commandManager
             currentCM.select(index);
 
             if (commandUnselectedFriends.length <= 1 && currentCM.commandSelected) {
                 _eventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
+
+                _party.getMembers(TargetType.ENEMY).forEach(function(c:Character, index:int, v:*):void {
+                    c.commandManager.autoSetting();
+                });
+
                 return;
             }
 
