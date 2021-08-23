@@ -7,6 +7,7 @@ package app.scenes {
     import app.gameEvents.GameEvent;
     import app.charas.Character;
     import app.coms.TargetType;
+    import flash.events.KeyboardEvent;
 
     public class ActionPart implements IScenePart {
 
@@ -40,6 +41,9 @@ package app.scenes {
 
         public function pause():void {
             _eventDispatcher.removeEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
+        }
+
+        public function pressKey(e:KeyboardEvent):void {
         }
 
         public function moveForward():void {
