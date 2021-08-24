@@ -32,7 +32,9 @@ package app.scenes {
         public function start():void {
             friends = _party.getMembers(TargetType.FRIEND);
             enemys = _party.getMembers(TargetType.ENEMY);
-            commandUnselectedFriends = _party.getMembers(TargetType.FRIEND);
+            commandUnselectedFriends = _party.getMembers(TargetType.FRIEND).filter(function(c:Character, i:int, v:*):Boolean {
+                return c.ability.hp.currentValue > 0;
+            });
 
             dispatchTextEvent(commandUnselectedFriends[0].commandManager.commandNames, GameTextEvent.COMMAND_WINDOW);
             isKeyboardEnabled = true;

@@ -22,6 +22,12 @@ package tests.scenes {
 
         private function test():void {
             var battleScene:BattleScene = new BattleScene();
+
+            var battleSceneCompleted:Boolean = false;
+            battleScene.addEventListener(Event.COMPLETE, function(e:Event):void {
+                battleSceneCompleted = true;
+            });
+
             var party:Party = new Party();
             battleScene.party = party;
 
@@ -78,6 +84,28 @@ package tests.scenes {
             while (!actionPartCompleted) {
                 battleScene.enterFrameEventHandler(new Event(Event.ENTER_FRAME));
             }
+
+            // ここまでで１ターン目が全て終了
+
+            while (!battleSceneCompleted) {
+                commandPartCompleted = false;
+                actionPartCompleted = false;
+
+                Assert.areEqual(ui.commandWindow.text, "攻撃\rスキル\rアイテム", "ここを通過する際は、デフォルトコマンドが表示されているはず");
+
+                while (!commandPartCompleted) {
+                    battleScene.keyboardEventHandler(enterKeySignal);
+                }
+
+                while (!actionPartCompleted) {
+                    battleScene.enterFrameEventHandler(new Event(Event.ENTER_FRAME));
+                }
+            }
+
+            var looserIsFrieds:Boolean = (f1.ability.hp.currentValue == 0 && f2.ability.hp.currentValue == 0);
+            var looserIsEnemys:Boolean = (e1.ability.hp.currentValue == 0 && e2.ability.hp.currentValue == 0);
+
+            Assert.isTrue(looserIsFrieds || looserIsEnemys, "どちらかのチームの全員の HP が 0 の状態になっているか");
         }
     }
 }

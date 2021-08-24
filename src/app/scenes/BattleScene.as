@@ -95,7 +95,7 @@ package app.scenes {
 
         private function finish():void {
             // 戦闘の終了処理
+            dispatchEvent(new Event(Event.COMPLETE));
         }
-
     }
 }
