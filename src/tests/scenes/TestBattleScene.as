@@ -85,9 +85,13 @@ package tests.scenes {
                 battleScene.enterFrameEventHandler(new Event(Event.ENTER_FRAME));
             }
 
+            // ここまでで１ターン目が全て終了
+
             while (!battleSceneCompleted) {
                 commandPartCompleted = false;
                 actionPartCompleted = false;
+
+                Assert.areEqual(ui.commandWindow.text, "攻撃\rスキル\rアイテム", "ここを通過する際は、デフォルトコマンドが表示されているはず");
 
                 while (!commandPartCompleted) {
                     battleScene.keyboardEventHandler(enterKeySignal);
