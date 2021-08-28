@@ -154,5 +154,9 @@ package app.coms {
         public function get skills():Vector.<Skill> {
             return _skills;
         }
+
+        public function get items():Vector.<Item> {
+            return _items;
+        }
     }
 }
