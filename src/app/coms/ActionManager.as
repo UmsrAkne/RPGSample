@@ -25,6 +25,9 @@ package app.coms {
             var nextTarget:Character = owner.commandManager.target;
             nextTarget.actionManager.recieveAction(IAction(owner.commandManager.nextCommand));
 
+            // アイテム自体やspの消費
+            owner.commandManager.payCost();
+
             // 行動を実行したのでリセットする。
             owner.commandManager.reset();
         }
