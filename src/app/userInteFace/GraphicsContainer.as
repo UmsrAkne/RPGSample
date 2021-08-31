@@ -8,6 +8,8 @@ package app.userInteFace {
 
         private var bitmaps:Vector.<Bitmap> = new Vector.<Bitmap>();
         private var bitmapsByName:Dictionary = new Dictionary();
+        private var _verticalDirectionStack:Boolean = false;
+        private var _spacing:int;
 
         public function GraphicsContainer() {
         }
@@ -23,10 +25,53 @@ package app.userInteFace {
             if (key != "") {
                 bitmapsByName[key] = b;
             }
+
+            align();
         }
 
         public function getBitmapFromKey(key:String):Bitmap {
             return bitmapsByName[key];
+        }
+
+        public function set verticalDirectionStack(value:Object):void {
+            _verticalDirectionStack = value;
+            align();
+        }
+
+        public function get verticalDirectionStack():Object {
+            return _verticalDirectionStack;
+        }
+
+        public function set spacing(value:int):void {
+            _spacing = value;
+            align();
+        }
+
+        public function get spacing():int {
+            return _spacing;
+        }
+
+        private function align():void {
+            if (bitmaps.length == 0) {
+                return;
+            }
+
+            var current:Bitmap = bitmaps[0];
+            current.x = 0;
+            current.y = 0;
+
+            for (var i:int = 1; i < bitmaps.length; i++) {
+                current = bitmaps[i];
+                var prev:Bitmap = bitmaps[i - 1];
+
+                if (verticalDirectionStack) {
+                    current.x = 0;
+                    current.y = prev.y + prev.height + spacing;
+                } else {
+                    current.y = 0;
+                    current.x = prev.x + prev.width + spacing;
+                }
+            }
         }
     }
 }
