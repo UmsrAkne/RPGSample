@@ -11,7 +11,7 @@ package {
     import tests.scenes.TestCommandPart;
     import tests.scenes.TestActionPart;
     import tests.scenes.TestBattleScene;
-    import tests.scenes.TestUI;
+    import tests.userInterface.TestUI;
 
     public class Tester extends Sprite {
         public function Tester() {

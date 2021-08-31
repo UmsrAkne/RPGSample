@@ -1,4 +1,4 @@
-package tests.scenes {
+package tests.userInterface {
 
 
     import app.userInteFace.UI;
