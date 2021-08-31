@@ -1,5 +1,6 @@
 package app.gameEvents {
     import flash.events.Event;
+    import app.charas.Character;
 
     public class GameTextEvent extends Event {
 
@@ -10,9 +11,11 @@ package app.gameEvents {
 
         public var text:String = "";
         public var displayLocation:String = MESSAGE_WINDOW;
+        private var _dispatcher:Character;
 
-        public function GameTextEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) {
-            super(type, bubbles, cancelable);
+        public function GameTextEvent(type:String, sender:Character) {
+            super(type, false, false);
+            _dispatcher = sender;
         }
 
         /**
@@ -30,6 +33,16 @@ package app.gameEvents {
         public function copyPropeties(source:GameTextEvent):void {
             text = source.text;
             displayLocation = source.displayLocation;
+            _dispatcher = source.dispatcher;
+        }
+
+        /**
+         * このメッセージの送出元のキャラクターを取得します。
+         * メッセージがシステムメッセージである場合は null を取得します。
+         * @return
+         */
+        public function get dispatcher():Character {
+            return _dispatcher;
         }
     }
 }

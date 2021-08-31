@@ -87,7 +87,7 @@ package app.scenes {
         }
 
         private function receiveReaction(e:GameTextEvent):void {
-            var newEv:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
+            var newEv:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE, null);
             newEv.copyPropeties(e);
             messageBuffer.push(newEv);
 
@@ -97,7 +97,7 @@ package app.scenes {
         }
 
         private function dispatchTextEvent(stringVector:Vector.<String>, displayLocation:String):void {
-            var textEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
+            var textEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE, null);
             textEvent.displayLocation = displayLocation;
             for each (var t:String in stringVector) {
                 textEvent.addLine(t);
