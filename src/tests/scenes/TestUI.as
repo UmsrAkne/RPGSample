@@ -1,6 +1,7 @@
 package tests.scenes {
 
-    import app.scenes.UI;
+
+    import app.userInteFace.UI;
 
     public class TestUI {
         public function TestUI() {

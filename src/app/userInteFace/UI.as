@@ -1,4 +1,4 @@
-package app.scenes {
+package app.userInteFace {
 
     import flash.text.TextField;
     import flash.geom.Rectangle;

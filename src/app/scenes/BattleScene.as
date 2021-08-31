@@ -8,6 +8,7 @@ package app.scenes {
     import app.gameEvents.GameEvent;
     import app.gameEvents.GameTextEvent;
     import flash.events.KeyboardEvent;
+    import app.userInteFace.UI;
 
     public class BattleScene extends Sprite {
 

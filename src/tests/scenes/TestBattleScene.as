@@ -7,11 +7,11 @@ package tests.scenes {
     import app.scenes.ActionPart;
     import app.scenes.CommandPart;
     import tests.Assert;
-    import app.scenes.UI;
     import flash.events.KeyboardEvent;
     import flash.ui.Keyboard;
     import flash.events.Event;
     import app.utils.Random;
+    import app.userInteFace.UI;
 
     public class TestBattleScene {
         public function TestBattleScene() {
