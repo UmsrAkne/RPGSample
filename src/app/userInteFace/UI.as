@@ -1,4 +1,4 @@
-package app.scenes {
+package app.userInteFace {
 
     import flash.text.TextField;
     import flash.geom.Rectangle;
@@ -11,9 +11,17 @@ package app.scenes {
         private var _commandWindow:TextField = new TextField();
         private var _sideCommandWindow:TextField = new TextField();
         private var _statusWindow:TextField = new TextField();
+        private var _enemyGraphicsContainer:GraphicsContainer = new GraphicsContainer();
+        private var _friendGraphicsContainer:GraphicsContainer = new GraphicsContainer();
         private const fontSize:int = 20;
 
         public function UI() {
+            _enemyGraphicsContainer.verticalDirectionStack = true;
+            addChild(_enemyGraphicsContainer);
+
+            _friendGraphicsContainer.verticalDirectionStack = false;
+            addChild(_friendGraphicsContainer);
+
             var textFormat:TextFormat = new TextFormat();
             textFormat.size = fontSize;
 
@@ -43,6 +51,14 @@ package app.scenes {
 
         public function get statusWindow():TextField {
             return _messageWindow;
+        }
+
+        public function get enemyGraphicsContainer():GraphicsContainer {
+            return _enemyGraphicsContainer;
+        }
+
+        public function get friendGraphicsContaier():GraphicsContainer {
+            return _friendGraphicsContainer;
         }
     }
 }
