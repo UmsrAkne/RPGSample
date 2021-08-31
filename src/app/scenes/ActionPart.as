@@ -95,15 +95,5 @@ package app.scenes {
             // (target が関係？)
             // このため、新しいイベントを生成して、そこにプロパティをコピーし、それを送出する。
         }
-
-        private function dispatchTextEvent(stringVector:Vector.<String>, displayLocation:String):void {
-            var textEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE, null);
-            textEvent.displayLocation = displayLocation;
-            for each (var t:String in stringVector) {
-                textEvent.addLine(t);
-            }
-
-            _eventDispatcher.dispatchEvent(textEvent);
-        }
     }
 }
