@@ -104,6 +104,17 @@ package app.coms {
             previousCommands = new Vector.<ICommand>();
         }
 
+        /** コマンド実行のコストを精算します。発生するコストの種類や量はコマンドによって異なります */
+        public function payCost():void {
+            if (nextCommand is Skill) {
+                owner.ability.sp.currentValue -= Skill(_nextCommand).cost;
+            }
+
+            if (nextCommand is Item) {
+                _items.removeAt(_items.indexOf(Item(_nextCommand)));
+            }
+        }
+
         /** * @return ターゲットとして選択可能なキャラクターのベクター の複製を取得します */
         private function extractTargetables(source:Vector.<Character>):Vector.<Character> {
             return source.filter(function(c:Character, index:int, v:Vector.<Character>):Boolean {
@@ -142,6 +153,10 @@ package app.coms {
 
         public function get skills():Vector.<Skill> {
             return _skills;
+        }
+
+        public function get items():Vector.<Item> {
+            return _items;
         }
     }
 }

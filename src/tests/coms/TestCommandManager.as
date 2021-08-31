@@ -6,6 +6,9 @@ package tests.coms {
     import tests.Assert;
     import app.utils.Random;
     import app.coms.TargetType;
+    import app.coms.Item;
+    import app.coms.EffectType;
+    import app.coms.Skill;
 
     public class TestCommandManager {
         public function TestCommandManager() {
@@ -13,6 +16,7 @@ package tests.coms {
             skillCommandTest();
             enemyAttackCommandTest();
             commandCancelTest();
+            payCostTest();
 
             Random.constant = 0.5;
             commandAutoSettingTest();
@@ -216,6 +220,59 @@ package tests.coms {
             Assert.isTrue(commandManager.commandSelected);
             Assert.areEqual(commandManager.target.displayName, "enemyCharacter");
             Assert.areEqual(commandManager.nextCommand.displayName, "攻撃");
+        }
+
+        private function payCostTest():void {
+            var owner:Character = new Character("testCharacter", true);
+            var enemy:Character = new Character("enemyCharacter", false);
+            var commandManager:CommandManager = new CommandManager(owner);
+            var party:Party = new Party();
+            party.members.push(owner, enemy);
+            commandManager.party = party;
+
+            for each (var c:Character in party.getMembers(TargetType.ALL)) {
+                c.ability.hp.maxValue = 10;
+                c.ability.hp.currentValue = 10;
+                c.ability.sp.maxValue = 10;
+                c.ability.sp.currentValue = 10;
+                c.party = party;
+            }
+
+            var item:Item = new Item();
+            item.displayName = "テストアイテム";
+            item.effectType = EffectType.DAMAGE;
+            item.targetType = TargetType.ENEMY;
+            owner.commandManager.items.push(item);
+
+            // payCost を使用するためには、nextCommand にコマンドが入っている必要があるため下準備を行う
+            owner.commandManager.select(2);
+            Assert.isTrue(owner.commandManager.commandNames[0], "テストアイテム");
+            owner.commandManager.select(0);
+            Assert.isTrue(owner.commandManager.commandNames[0], "enemyCharacter");
+            owner.commandManager.select(0);
+
+            Assert.areEqual(owner.commandManager.items.length, 1, "この段階ではアイテムを持っている");
+            owner.commandManager.payCost();
+            Assert.areEqual(owner.commandManager.items.length, 0, "唯一のアイテムを使用したので容量０");
+
+            owner.commandManager.reset();
+
+            // アイテムだけでなく、スキルでもテストする。
+            var sk:Skill = new Skill();
+            sk.displayName = "テストスキル";
+            sk.cost = 3;
+            sk.effectType = EffectType.DAMAGE;
+            sk.targetType = TargetType.ENEMY;
+            owner.commandManager.skills.push(sk);
+
+            owner.commandManager.select(1);
+            Assert.isTrue(owner.commandManager.commandNames[1], "テストスキル");
+            owner.commandManager.select(1);
+            owner.commandManager.select(0);
+
+            Assert.areEqual(owner.ability.sp.currentValue, 10);
+            owner.commandManager.payCost();
+            Assert.areEqual(owner.ability.sp.currentValue, 7, "sp を 3 消費しているはず");
         }
     }
 }
