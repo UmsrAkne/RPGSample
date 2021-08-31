@@ -99,7 +99,7 @@ package app.scenes {
         }
 
         private function dispatchTextEvent(stringVector:Vector.<String>, displayLocation:String):void {
-            var textEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
+            var textEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE, null);
             textEvent.displayLocation = displayLocation;
             for each (var t:String in stringVector) {
                 textEvent.addLine(t);

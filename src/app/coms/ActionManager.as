@@ -18,7 +18,7 @@ package app.coms {
         }
 
         public function act():void {
-            var messageEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
+            var messageEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE, this.owner);
             messageEvent.text = IAction(owner.commandManager.nextCommand).message;
             eventDispatcher.dispatchEvent(messageEvent);
 
@@ -31,7 +31,7 @@ package app.coms {
 
         public function recieveAction(action:IAction):void {
 
-            var messageEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE);
+            var messageEvent:GameTextEvent = new GameTextEvent(GameEvent.MESSAGE, this.owner);
 
             switch (action.effectType) {
                 case EffectType.DAMAGE:
