@@ -10,7 +10,7 @@ package app.dataLoaders {
 
         private var _characterXML:XML;
         private var _copySourceCharacters:Vector.<Character> = new Vector.<Character>();
-        private var completeEventDispatcher:EventDispatcher;
+        private var completeEventDispatcher:EventDispatcher = new EventDispatcher();
 
         public function CharacterLoader() {
         }
@@ -37,19 +37,23 @@ package app.dataLoaders {
             _characterXML = value;
         }
 
-        private function makeCharacters():void {
-            for each (var charaData:XML in _characterXML) {
-                var c:Character = new Character(charaData["name"], charaData["isFriend"] == "true");
+        public function get copySourceCharacters():Vector.<Character> {
+            return _copySourceCharacters;
+        }
 
-                var hp:int = parseInt(charaData["hp"]);
+        private function makeCharacters():void {
+            for each (var charaData:XML in _characterXML["character"]) {
+                var c:Character = new Character(charaData["@name"], charaData["@isFriend"] == "true");
+
+                var hp:int = parseInt(charaData["@hp"]);
                 c.ability.hp.maxValue = hp;
                 c.ability.hp.currentValue = hp;
 
-                var sp:int = parseInt(charaData["sp"]);
+                var sp:int = parseInt(charaData["@sp"]);
                 c.ability.sp.maxValue = sp;
                 c.ability.sp.currentValue = sp;
 
-                var atk:int = parseInt(charaData["atk"]);
+                var atk:int = parseInt(charaData["@atk"]);
                 c.ability.atk.maxValue = atk;
                 c.ability.atk.currentValue = atk;
 
