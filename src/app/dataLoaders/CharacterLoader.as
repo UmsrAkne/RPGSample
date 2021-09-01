@@ -9,7 +9,7 @@ package app.dataLoaders {
     public class CharacterLoader {
 
         private var _characterXML:XML;
-        private var _copySourceCharacters:Vector.<Character>
+        private var _copySourceCharacters:Vector.<Character> = new Vector.<Character>();
         private var completeEventDispatcher:EventDispatcher;
 
         public function CharacterLoader() {
@@ -20,7 +20,7 @@ package app.dataLoaders {
                 var urlLoader:URLLoader = new URLLoader();
                 urlLoader.addEventListener(Event.COMPLETE, function(e:Event):void {
                     _characterXML = new XMLList(URLLoader(e.target).data)[0];
-
+                    makeCharacters();
                     completeEventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
                 });
 
@@ -29,7 +29,32 @@ package app.dataLoaders {
                 return;
             }
 
+            makeCharacters();
             completeEventDispatcher.dispatchEvent(new Event(Event.COMPLETE));
+        }
+
+        public function set characterXML(value:XML):void {
+            _characterXML = value;
+        }
+
+        private function makeCharacters():void {
+            for each (var charaData:XML in _characterXML) {
+                var c:Character = new Character(charaData["name"], charaData["isFriend"] == "true");
+
+                var hp:int = parseInt(charaData["hp"]);
+                c.ability.hp.maxValue = hp;
+                c.ability.hp.currentValue = hp;
+
+                var sp:int = parseInt(charaData["sp"]);
+                c.ability.sp.maxValue = sp;
+                c.ability.sp.currentValue = sp;
+
+                var atk:int = parseInt(charaData["atk"]);
+                c.ability.atk.maxValue = atk;
+                c.ability.atk.currentValue = atk;
+
+                _copySourceCharacters.push(c);
+            }
         }
     }
 }
