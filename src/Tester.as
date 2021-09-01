@@ -13,6 +13,7 @@ package {
     import tests.scenes.TestBattleScene;
     import tests.userInterface.TestUI;
     import tests.userInterface.TestGraphicsContainer;
+    import tests.dataLoaders.TestCharacterLoader;
 
     public class Tester extends Sprite {
         public function Tester() {
@@ -27,6 +28,7 @@ package {
             new TestBattleScene();
             new TestUI();
             new TestGraphicsContainer();
+            new TestCharacterLoader();
 
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
 
