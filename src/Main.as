@@ -2,6 +2,7 @@ package {
     import flash.display.Sprite;
     import flash.display.StageAlign;
     import flash.display.StageScaleMode;
+    import app.userInteFace.WindowInfo;
 
     /**
      * ...
@@ -17,6 +18,9 @@ package {
 
             stage.nativeWindow.width = 1296;
             stage.nativeWindow.height = 759;
+
+            WindowInfo.width = 1280;
+            WindowInfo.height = 720;
         }
     }
 }
