@@ -1,16 +1,23 @@
 package app.scenes {
 
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
     import flash.display.Sprite;
     import flash.events.Event;
     import flash.events.KeyboardEvent;
+    import flash.geom.Rectangle;
     import flash.ui.Keyboard;
 
     public class StartScene extends Sprite {
+
+        private var background:Bitmap;
+
         public function StartScene() {
         }
 
         /** シーンを開始します */
-        public function start():void {
+        public function start(sceneSize:Rectangle):void {
+            background = new Bitmap(new BitmapData(sceneSize.width, sceneSize.height, false, 0x0));
             addEventListener(KeyboardEvent.KEY_DOWN, keyboardEventHandler);
         }
 
